@@ -288,11 +288,28 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    //take current object and add on additional objects based on additional arguments
+    var result = obj;
+    for (var i = 1; i < arguments.length; i++) {
+      for (var key in arguments[i]) {
+        result[key] = arguments[i][key];
+      }
+    }
+    return result;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var result = obj;
+    for (var i = 1; i < arguments.length; i++) {
+      for (var key in arguments[i]) {
+        if (!result.hasOwnProperty(key)) {
+          result[key] = arguments[i][key];
+        }
+      }
+    }
+    return result;
   };
 
 
@@ -336,6 +353,15 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+      var outputList = {};
+      var result;
+
+      return function() {
+        if (outputList.hasOwnProperty(func[this.arguments])) {
+          result = func.apply(this, arguments);
+        }
+        return result;
+      };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
