@@ -231,23 +231,35 @@
     // TIP: Try re-using reduce() here.
     //return true or false
     //reduce and use iterator on item
-    var result = true;
-    _.each(collection, function(element){
-      if (iterator === undefined) {
-        if(Boolean(element) == false) {
-          result = false;
-        }
-      } else if (Boolean(iterator(element)) == false) {
-        result = false;
+    // var result = true;
+    // _.each(collection, function(element){
+    //   if (iterator === undefined) {
+    //     if(Boolean(element) == false) {
+    //       result = false;
+    //     }
+    //   } else if (Boolean(iterator(element)) == false) {
+    //     result = false;
+    //   }
+    // });
+    // return result;
+    if (iterator === undefined) {
+      iterator = _.identity;
+    }
+    return _.reduce(collection, function(accumulator, element){
+      if (accumulator == false) {
+        return accumulator;
       }
-    });
-    return result;
+      return Boolean(iterator(element));
+    },true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    return _.every(collection, function(element) {
+    return iterator(element)
+    });
   };
 
 
