@@ -257,9 +257,15 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
-    return _.every(collection, function(element) {
-    return iterator(element)
+    if (iterator === undefined) {
+      iterator = _.identity;
+    }
+    var everyTest = _.every(collection, function(element) {
+      return !iterator(element)
+    //if every element is false return false else return true
+    //
     });
+    return !everyTest
   };
 
 
