@@ -394,6 +394,22 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var result = [];
+    var arrCopy = array.slice();
+
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+  // take array and assign to new array
+  // Math.random between 0 and array.length and splice 
+    for (var i = 0; i < array.length; i++) {
+      //
+      var randomIndex = getRandomInt(0, arrCopy.length);
+      result.push(arrCopy.splice(randomIndex, 1)[0]);
+    }
+    return result;
   };
 
 
